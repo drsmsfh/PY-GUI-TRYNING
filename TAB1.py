@@ -1,19 +1,11 @@
 import tkinter as tk
-from tkinter import ttk
+import ttkbootstrap as ttk
  
 window = tk.Tk()
 window.title('title')
-window.geometry('300x300')
- 
-string_var = tk.StringVar(value='hello')
 
-label = ttk.Label(master= window,text='something',textvariable= string_var)
-label.pack()
-
-entry = ttk.Entry(master=window,textvariable= string_var)
-entry.pack()
-entry2 = ttk.Entry(master=window,textvariable= string_var)
-entry2.pack()
-
-
+spin = ttk.Spinbox(master= window,from_=1,to=10)
+spin.pack()
+spin.bind("<<Increment>>",lambda event:print('up'))
+spin.bind("<<Decrement>>",lambda event:print('dawn'))
 window.mainloop()
