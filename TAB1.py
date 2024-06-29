@@ -1,42 +1,37 @@
 import tkinter as tk
-import ttkbootstrap as ttk
+import ttkbootstrap as ttk  # Ensure ttkbootstrap is installed
 import random
 
-# Initialize the main window
+# window
 window = tk.Tk()
-window.title('Treeview Example')
+window.geometry('600x400')
+window.title('Frames and parenting')
 
-# Data for populating the Treeview
-first_names = ['Bob', 'Maria', 'Alex', 'James', 'Susan', 'Henry', 'Lisa', 'Anna', 'Lisa']
-last_names = ['Smith', 'Brown', 'Wilson', 'Thomson', 'Cook', 'Taylor', 'Walker', 'Clark']
 
-# Create the Treeview widget
-table = ttk.Treeview(window, columns=('first', 'last', 'email'), show='headings')
-table.heading('first', text='First name')
-table.heading('last', text='Surname')
-table.heading('email', text='Email')
-table.pack()
+# Menu setup
+menu = tk.Menu(window)
+file_menu = tk.Menu(menu,tearoff= False)
+file_menu.add_command(label='open', command=lambda: print('file'))
+menu.add_cascade(label="file", menu=file_menu)
+# Attach the menu to the window
 
-# Insert random values into the Treeview
-for i in range(100):
-    first_name = random.choice(first_names)
-    last_name = random.choice(last_names)
-    table.insert(parent='', index=0, values=(first_name, last_name, f'{first_name+last_name}@email.com'))
 
-# Function to print selected items
-def item_select(event):
-    for item in table.selection():
-        print(table.item(item)['values'])
+help_menu = tk.Menu(menu,tearoff= False)
+help_menu.add_command(label = 'git help',command = lambda :print('you got help'))
+menu.add_cascade(label = 'help', menu = help_menu)
+help_var = tk.StringVar()
+help_menu.add_checkbutton(label = 'check buton',onvalue='on',offvalue = 'off',variable = help_var)
 
-# Function to delete selected items
-def delete_items(event):
-    for item in table.selection():
-        table.delete(item)
 
-# Bind selection and delete events
-table.bind('<<TreeviewSelect>>', item_select)
-table.bind('<Delete>', delete_items)
-table.bind('<BackSpace>', delete_items)  # Bind Backspace key to delete items
+menu_button = tk.Menubutton(window)
+new_menu = tk.Menu(menu_button,tearoff=False)
+new_menu.add_command(label = 'test',command = lambda:print('test'))
+new_menu.add_cascade(label = 'pris',menu = new_menu)
 
-# Run the main event loop
+
+but_var = tk.StringVar()
+menu_button.add_checkbutton(label = 'check buton')
+menu_button.config(menu=new_menu)
+window.config(menu=menu)
 window.mainloop()
+
